@@ -1,0 +1,71 @@
+<section class="login" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="login__card">
+    <div class="login__branding">
+      <mat-icon aria-hidden="true">sparkles</mat-icon>
+      <h1 id="login-title">Welcome back</h1>
+      <p>Sign in with any username and password or continue with Microsoft to start chatting.</p>
+    </div>
+
+    <form class="login__form" (ngSubmit)="handleSubmit()" novalidate>
+      <div class="login__field">
+        <label class="login__label" for="login-username">Username</label>
+        <input
+          id="login-username"
+          type="text"
+          name="loginUsername"
+          autocomplete="username"
+          class="login__input"
+          [ngModel]="username()"
+          (ngModelChange)="handleUsernameChange($event)"
+          [disabled]="isSubmitting()"
+          required
+        />
+      </div>
+
+      <div class="login__field">
+        <label class="login__label" for="login-password">Password</label>
+        <input
+          id="login-password"
+          type="password"
+          name="loginPassword"
+          autocomplete="current-password"
+          class="login__input"
+          [ngModel]="password()"
+          (ngModelChange)="handlePasswordChange($event)"
+          [disabled]="isSubmitting()"
+          required
+        />
+      </div>
+
+      @if (error()) {
+        <p class="login__error" role="alert">{{ error() }}</p>
+      }
+
+      <button type="submit" class="login__submit" [disabled]="isSubmitting()">
+        <span>Enter workspace</span>
+        <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+      </button>
+    </form>
+
+    <div class="login__divider" role="presentation">
+      <span>or</span>
+    </div>
+    <button
+      type="button"
+      class="login__microsoft"
+      (click)="handleMicrosoftLogin()"
+      [disabled]="isSubmitting()"
+    >
+      <span class="login__microsoft-logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <rect x="1" y="1" width="10" height="10" fill="#f25022" rx="1"></rect>
+          <rect x="13" y="1" width="10" height="10" fill="#7fba00" rx="1"></rect>
+          <rect x="1" y="13" width="10" height="10" fill="#00a4ef" rx="1"></rect>
+          <rect x="13" y="13" width="10" height="10" fill="#ffb900" rx="1"></rect>
+        </svg>
+      </span>
+      <span>Continue with Microsoft</span>
+    </button>
+
+  </div>
+</section>

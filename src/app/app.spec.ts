@@ -1,12 +1,23 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
 import { App } from './app';
+import { ChatAiService } from './services/chat-ai.service';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection()]
+      providers: [
+        provideZonelessChangeDetection(),
+        {
+          provide: ChatAiService,
+          useValue: {
+            sendMessage: () => of({ reply: 'Hello from test' })
+          }
+        }
+      ]
     }).compileComponents();
   });
 
@@ -20,6 +31,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, chat-ui');
+    const brand = compiled.querySelector('.app-toolbar__brand span')?.textContent?.trim();
+    expect(brand).toBe('Aurora Chat');
   });
 });

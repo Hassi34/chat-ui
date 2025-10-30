@@ -3,10 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node ./scripts/generate-runtime-env.mjs",
     "start": "ng serve",
+    "prebuild": "node ./scripts/generate-runtime-env.mjs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "pretest": "node ./scripts/generate-runtime-env.mjs",
+    "test": "ng test",
+    "start:server": "node ./server/index.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -22,12 +26,21 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.3.0",
+    "@angular/cdk": "^20.2.10",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
+    "@angular/material": "^20.2.10",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
+    "@azure/msal-angular": "^3.0.10",
+    "@azure/msal-browser": "^3.22.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+  "mammoth": "^1.11.0",
+    "pdfjs-dist": "^5.4.296",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

@@ -1,0 +1,99 @@
+<form class="chat-input" (ngSubmit)="submit()" novalidate>
+  <input
+    #fileInput
+    type="file"
+    class="chat-input__file-native"
+    (change)="handleFileSelection($event)"
+    multiple
+    [disabled]="disabled()"
+  />
+  <button
+    type="button"
+    class="chat-input__upload"
+    (click)="fileInput.click()"
+    [disabled]="disabled()"
+    aria-label="Attach a file"
+    title="Attach a file"
+  >
+    <mat-icon>attach_file</mat-icon>
+  </button>
+  <textarea
+    class="chat-input__textarea"
+    name="message"
+    placeholder="Type your message..."
+    [ngModel]="draft()"
+    (ngModelChange)="handleDraftChange($event)"
+    (keydown)="handleKeydown($event)"
+    rows="1"
+    cdkTextareaAutosize
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="8"
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="sentences"
+    spellcheck="true"
+    [disabled]="disabled()"
+  ></textarea>
+  <button
+    type="button"
+    class="chat-input__mic"
+    (click)="toggleMic()"
+    [disabled]="disabled() || !speechSupported()"
+    [attr.aria-pressed]="isListening() ? 'true' : 'false'"
+    [attr.title]="speechSupported() ? (isListening() ? 'Stop speaking' : 'Start speaking') : 'Voice input not supported'"
+    aria-label="Toggle microphone input"
+  >
+    <mat-icon>{{ speechSupported() ? (isListening() ? 'stop_circle' : 'mic') : 'mic_off' }}</mat-icon>
+  </button>
+  <button
+    type="submit"
+    class="chat-input__send"
+    [disabled]="!canSend()"
+    aria-label="Send message"
+  >
+    <mat-icon>send</mat-icon>
+  </button>
+</form>
+
+<div
+  class="chat-input__meta"
+  *ngIf="attachments().length || attachmentErrors().length || isReadingFile()"
+  aria-live="polite"
+>
+  <div class="chat-input__attachments" *ngIf="attachments().length">
+    <div class="chat-input__file-pill" *ngFor="let attachment of attachments(); let index = index">
+      <mat-icon>description</mat-icon>
+      <span class="chat-input__file-name">{{ attachment.name }}</span>
+      <button
+        type="button"
+        class="chat-input__file-clear"
+        (click)="removeAttachment(index)"
+        [disabled]="disabled() || isReadingFile()"
+        aria-label="Remove attachment"
+        title="Remove attachment"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="chat-input__file-status" *ngIf="isReadingFile()">
+    Reading attachment{{ attachments().length !== 1 ? 's' : '' }}...
+  </div>
+  <div class="chat-input__file-error" *ngFor="let error of attachmentErrors()">
+    <mat-icon>error</mat-icon>
+    <span>Attachment ({{ error.name }}): {{ error.message }}</span>
+  </div>
+  <div class="chat-input__meta-actions" *ngIf="attachments().length || attachmentErrors().length">
+    <button
+      type="button"
+      class="chat-input__meta-clear"
+      (click)="clearAttachments(fileInput)"
+      [disabled]="disabled() || isReadingFile()"
+      aria-label="Clear all attachments"
+      title="Clear all attachments"
+    >
+      <mat-icon>close</mat-icon>
+      <span>Clear all</span>
+    </button>
+  </div>
+</div>

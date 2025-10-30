@@ -1,59 +1,89 @@
-# ChatUi
+# Chat UI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Angular-powered conversational interface with multi-file uploads, AI integration, and adaptive layout tweaks.
 
-## Development server
+## System Workflow
 
-To start a local development server, run:
-
-```bash
-ng serve
+```mermaid
+flowchart TD
+    A[User] --> B[Chat UI]
+    B --> C{Message Composer}
+    C -->|Text / Voice / Attachments| D[ChatInput Component]
+    D --> E[ActiveChat Component]
+    E --> F[ChatAiService]
+    F --> G[(AI API)]
+    E --> H[LoggingService]
+    H --> I[(Logging API)]
+    E --> J[Conversation Sidebar]
+    J --> B
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Directory Map
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```mermaid
+graph TD
+    root[chat-ui/] --> src[src/]
+    root --> scripts[scripts/]
+    root --> server[server/]
+    root --> public[public/]
+    src --> app[src/app/]
+    src --> environments[src/environments/]
+    app --> activeChat[active-chat/]
+    app --> services[services/]
+    app --> conversationSidebar[conversation-sidebar/]
+    scripts --> runtimeEnv[generate-runtime-env.mjs]
+    server --> index[server/index.mjs]
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Design Highlights
 
-```bash
-ng generate --help
-```
+- Glassmorphism-inspired chat layout with responsive spacing.
+- Typing animation welcomes each user dynamically on the empty state screen.
+- Sidebar toggle floats for quick access; multi-file attachments show pill previews and inline errors.
+- Accessibility: keyboard shortcuts, ARIA attributes, reduced-motion fallback for animations.
 
-## Building
+## Local Setup
 
-To build the project run:
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+2. **Configure environment variables**
+   - Copy `.env.example` to `.env`.
+   - Replace placeholders with your AI endpoint, MSAL credentials, and logging API URL as needed.
+   - Re-run `npm install` if you update `.env` so `runtime-env.generated.ts` refreshes (the pre* scripts handle this automatically).
+3. **Run the dev server**
+   ```bash
+   npm start
+   ```
+   Visit `http://localhost:4200/` in your browser.
+4. **Optional: start the logging microservice** (used for local log persistence)
+   ```bash
+   npm run start:server
+   ```
+   By default it listens on `http://localhost:4000`.
+5. **Run tests**
+   ```bash
+   npm test
+   ```
 
-```bash
-ng build
-```
+## Common Tasks
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- **Generate components/services**
+  ```bash
+  ng generate component feature/my-component
+  ng generate service feature/my-service
+  ```
+- **Build for production**
+  ```bash
+  npm run build
+  ```
+- **Lint and formatting guides**
+  - Prettier is preconfigured via `package.json`.
+  - Angular CLI handles TypeScript linting via `ng lint` (configure as needed).
 
 ## Additional Resources
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Angular CLI documentation](https://angular.dev/tools/cli)
+- [Angular Material](https://material.angular.io)
+- [MSAL Angular](https://learn.microsoft.com/azure/active-directory/develop/msal-overview)

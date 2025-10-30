@@ -1,0 +1,132 @@
+<button
+  type="button"
+  class="sidebar__toggle"
+  [class.sidebar__toggle--expanded]="expanded()"
+  [class.sidebar__toggle--floating]="!expanded()"
+  (click)="toggle()"
+  [attr.aria-expanded]="expanded()"
+  [attr.aria-label]="expanded() ? 'Collapse chat history panel' : 'Expand chat history panel'"
+  aria-controls="chat-sidebar-panel"
+>
+  <span class="sidebar__toggle-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M2 7.25C2 5.45507 3.45507 4 5.25 4H18.75C20.5449 4 22 5.45507 22 7.25V16.75C22 18.5449 20.5449 20 18.75 20H5.25C3.45508 20 2 18.5449 2 16.75V7.25ZM9.5 5.5V18.5H18.75C19.7165 18.5 20.5 17.7165 20.5 16.75V7.25C20.5 6.2835 19.7165 5.5 18.75 5.5H9.5ZM8 5.5H5.25C4.2835 5.5 3.5 6.2835 3.5 7.25V16.75C3.5 17.7165 4.2835 18.5 5.25 18.5H8V5.5Z"
+      />
+    </svg>
+  </span>
+</button>
+
+<aside
+  id="chat-sidebar-panel"
+  class="sidebar"
+  [class.sidebar--expanded]="expanded()"
+  [class.sidebar--has-content]="hasChats()"
+>
+  @if (hasChats()) {
+    <section class="sidebar__card" aria-label="Chat history">
+      <h2 class="sidebar__heading">Recent Chats</h2>
+      <div class="sidebar__search">
+        <input
+          type="search"
+          class="sidebar__search-input"
+          placeholder="Search chats"
+          aria-label="Search chats"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="handleSearchChange($event)"
+        />
+      </div>
+      @if (hasFilteredChats()) {
+        <ul class="sidebar__list">
+          @for (chat of filteredChats(); track chat.id) {
+            <li class="sidebar__list-item">
+              <button
+                type="button"
+                class="sidebar__item"
+                [class.sidebar__item--active]="activeChatId() === chat.id"
+                (click)="setActiveChat(chat.id)"
+                [attr.aria-pressed]="activeChatId() === chat.id"
+              >
+                <span class="sidebar__item-header">
+                  <span class="sidebar__item-title">{{ chat.title }}</span>
+                  <span class="sidebar__item-timestamp">{{ formatTimestamp(chat.createdAt) }}</span>
+                </span>
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="sidebar__empty-state">No chats match your search.</p>
+      }
+
+      <footer class="sidebar__footer">
+        @if (!isLoggedIn()) {
+          <form class="sidebar-login" (ngSubmit)="handleLogin()" novalidate>
+            <div class="sidebar-login__field">
+              <label class="sidebar-login__label" for="sidebar-login-username">Username</label>
+              <input
+                id="sidebar-login-username"
+                type="text"
+                name="sidebarLoginUsername"
+                autocomplete="username"
+                class="sidebar-login__input"
+                [ngModel]="usernameInput()"
+                (ngModelChange)="handleUsernameChange($event)"
+                [disabled]="ssoPending()"
+                required
+              />
+            </div>
+            <div class="sidebar-login__field">
+              <label class="sidebar-login__label" for="sidebar-login-password">Password</label>
+              <input
+                id="sidebar-login-password"
+                type="password"
+                name="sidebarLoginPassword"
+                autocomplete="current-password"
+                class="sidebar-login__input"
+                [ngModel]="passwordInput()"
+                (ngModelChange)="handlePasswordChange($event)"
+                [disabled]="ssoPending()"
+                required
+              />
+            </div>
+            <button type="submit" class="sidebar-login__submit" [disabled]="ssoPending()">Log in</button>
+          </form>
+
+          <div class="sidebar-login__divider" role="presentation"><span>or</span></div>
+          <button
+            type="button"
+            class="sidebar-login__sso"
+            (click)="handleMicrosoftLogin()"
+            [disabled]="ssoPending()"
+          >
+            <span class="sidebar-login__sso-logo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <rect x="1" y="1" width="10" height="10" fill="#f25022" rx="1"></rect>
+                <rect x="13" y="1" width="10" height="10" fill="#7fba00" rx="1"></rect>
+                <rect x="1" y="13" width="10" height="10" fill="#00a4ef" rx="1"></rect>
+                <rect x="13" y="13" width="10" height="10" fill="#ffb900" rx="1"></rect>
+              </svg>
+            </span>
+            <span>Sign in with Microsoft</span>
+          </button>
+
+          @if (loginError()) {
+            <p class="sidebar-login__error" role="alert">{{ loginError() }}</p>
+          }
+        } @else {
+          <div class="sidebar-user">
+            <div class="sidebar-user__info">
+              <mat-icon aria-hidden="true">account_circle</mat-icon>
+              <div>
+                <span class="sidebar-user__label">Logged in</span>
+                <span class="sidebar-user__name">{{ currentUser()?.displayName ?? currentUser()?.username }}</span>
+              </div>
+            </div>
+            <button type="button" class="sidebar-user__logout" (click)="handleLogout()">Log out</button>
+          </div>
+        }
+      </footer>
+    </section>
+  }
+</aside>

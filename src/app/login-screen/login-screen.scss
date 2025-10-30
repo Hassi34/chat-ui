@@ -1,0 +1,213 @@
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 20% 20%, rgba(103, 58, 183, 0.2), transparent 60%),
+    radial-gradient(circle at 80% 30%, rgba(3, 169, 244, 0.2), transparent 55%),
+    radial-gradient(circle at 50% 80%, rgba(0, 188, 212, 0.15), transparent 50%),
+    linear-gradient(160deg, #101623, #05070d 65%);
+  padding: 2rem;
+}
+
+.login__card {
+  width: min(100%, 420px);
+  padding: clamp(2rem, 5vw, 3rem);
+  border-radius: 24px;
+  background: rgba(12, 17, 27, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.8);
+  display: grid;
+  gap: 2rem;
+}
+
+.login__form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.login__field {
+  display: grid;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.login__label {
+  color: rgba(241, 245, 249, 0.85);
+  font-weight: 500;
+}
+
+.login__input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.45);
+  color: #f8fafc;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.login__branding {
+  display: grid;
+  gap: 0.75rem;
+  text-align: center;
+  color: #f1f5f9;
+}
+
+.login__branding mat-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  justify-self: center;
+  color: #c084fc;
+}
+
+.login__branding h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  font-weight: 600;
+}
+
+.login__branding p {
+  margin: 0;
+  color: rgba(241, 245, 249, 0.7);
+}
+
+.login__input:focus {
+  border-color: rgba(129, 140, 248, 0.8);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.25);
+}
+
+.login__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login__error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  font-size: 0.9rem;
+}
+
+.login__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: #f8fafc;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login__submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -20px rgba(94, 129, 244, 0.8);
+}
+
+.login__submit:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+.login__submit mat-icon {
+  font-size: 1.2rem;
+}
+
+.login__divider {
+  margin: 1.5rem 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: rgba(226, 232, 240, 0.6);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.login__divider::before,
+.login__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.35));
+}
+
+.login__divider::after {
+  background: linear-gradient(90deg, rgba(226, 232, 240, 0.35), transparent);
+}
+
+.login__microsoft {
+  margin-top: 1rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.4);
+  color: #f8fafc;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.login__microsoft:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(129, 140, 248, 0.5);
+  box-shadow: 0 12px 24px -22px rgba(94, 129, 244, 0.85);
+}
+
+.login__microsoft:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+.login__microsoft-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__microsoft-logo svg {
+  width: 18px;
+  height: 18px;
+}
+
+.login__sso-hint {
+  margin: 0.85rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(226, 232, 240, 0.7);
+  text-align: center;
+}
+
+.login__sso-hint code {
+  font-family: 'Source Code Pro', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: rgba(129, 140, 248, 0.9);
+}
+
+@media (max-width: 480px) {
+  .login {
+    padding: 1.5rem;
+  }
+
+  .login__card {
+    padding: 2rem;
+    border-radius: 20px;
+  }
+}
